@@ -1,0 +1,5 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/kiritocyanpine/Projects/owl-coffee-native/build/Release/owl-coffee-native.app/Contents/MacOS/owl-coffee-native'
+relocations:     []
+...
