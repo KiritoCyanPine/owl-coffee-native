@@ -25,6 +25,10 @@ class StringMapping: NSObject,NSApplicationDelegate {
     }
     
     static public func GetTrayIconSymbolName() -> String{
+        if CaffinationStatus.appQuitting{
+            return "cup.and.saucer"
+        }
+        
         if !CaffinationStatus.enabled && !CaffinationStatus.enabledWithDisplay{
             return "cloud.moon.bolt.circle.fill"
         }

@@ -72,14 +72,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func quitApp() {
+        CaffinationStatus.setAppQuitting()
+        createUpdate()
+        
         KillAllCaffeinaters()
-        sleep(1)
+        sleep(4)
+        
         NSApp.terminate(nil)
     }
     
     func KillAllCaffeinaters() {
         for pid in Pid.list {
-            let result = kill(pid, SIGTERM)
+            let result = RunCommand(commandString: "kill -9 \(pid)")
             
             if result == 0 {
                 print("✅ Process \(pid) terminated successfully")
@@ -89,6 +93,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
+        _ = RunCommand(commandString: "pkill -f caffeinate")
+        
         Pid.list = []
     }
     
@@ -96,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let process = Process()
         let pipe = Pipe()
 
-        process.executableURL = URL(fileURLWithPath: "/bin/bash")
+        process.executableURL = URL(fileURLWithPath: "/bin/zsh")
         process.arguments = ["-c", command]
         process.standardOutput = pipe
         process.standardError = pipe
@@ -106,6 +112,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             print("❌ Failed to run process: \(error)")
             return -1
+        }
+        
+        if command.localizedStandardContains("pkill") {
+            process.waitUntilExit()
         }
         
         return process.processIdentifier

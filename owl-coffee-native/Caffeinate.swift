@@ -9,6 +9,7 @@
 class CaffinationStatus {
     static public var enabled: Bool = false;
     static public var enabledWithDisplay: Bool = false;
+    static public var appQuitting: Bool = false;
     
     static public func reset() {
         enabled = false
@@ -24,4 +25,9 @@ class CaffinationStatus {
         enabled = false
         enabledWithDisplay = true
     }
+    
+    static public func setAppQuitting() {
+        appQuitting = true
+    }
+
 }
