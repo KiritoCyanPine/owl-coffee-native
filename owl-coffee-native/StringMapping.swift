@@ -30,7 +30,7 @@ class StringMapping: NSObject,NSApplicationDelegate {
         }
         
         if !CaffinationStatus.enabled && !CaffinationStatus.enabledWithDisplay{
-            return "cloud.moon.bolt.circle.fill"
+            return "cloud.moon.circle"
         }
         
         return "cup.and.saucer.fill"
