@@ -6,8 +6,8 @@
 #
 
 # ---- Configurable App Info ----
-APP_NAME = owl-coffee-native
-APP_BUNDLE = owl-coffee-native.app
+APP_NAME = Owl Coffee
+APP_BUNDLE = Owl Coffee.app
 APP_SCHEME = owl-coffee-native
 APP_BUILD_DIR = ./build/Release
 DMG_NAME = OwlCoffee.dmg
@@ -32,8 +32,8 @@ dmg: app
 		--window-pos 200 120 \
 		--window-size 500 300 \
 		--icon-size 100 \
-		--icon "$(APP_NAME).app" 125 150 \
-		--hide-extension "$(APP_NAME).app" \
+		--icon "$(APP_BUNDLE)" 125 150 \
+		--hide-extension "$(APP_BUNDLE)" \
 		--app-drop-link 375 150 \
 		"$(DMG_PATH)" \
 		"$(APP_BUILD_DIR)"

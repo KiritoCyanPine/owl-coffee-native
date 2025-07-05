@@ -14,10 +14,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        print("applicationDidFinishLaunching called ")
+        print("✅ applicationDidFinishLaunching called ...")
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "cloud.moon.bolt.circle.fill", accessibilityDescription: "Owl Coffee")
+            button.image = NSImage(systemSymbolName: "cloud.moon.circle", accessibilityDescription: "Owl Coffee")
             button.image?.isTemplate = true // Adapts to dark/light mode
         }
         createUpdate()
@@ -83,29 +83,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func KillAllCaffeinaters() {
         for pid in Pid.list {
-            let result = RunCommand(commandString: "kill -9 \(pid)")
-            
-            if result == 0 {
-                print("✅ Process \(pid) terminated successfully")
-            } else {
-                let errnoMessage = String(cString: strerror(errno))
-                print("❌ Failed to kill process \(pid): \(errnoMessage)")
-            }
+            _ = RunCommand(commandString: "kill -9 \(pid)")
         }
-        
-        _ = RunCommand(commandString: "pkill -f caffeinate")
         
         Pid.list = []
     }
     
     func RunCommand(commandString command: String) -> Int32 {
         let process = Process()
-        let pipe = Pipe()
 
         process.executableURL = URL(fileURLWithPath: "/bin/zsh")
         process.arguments = ["-c", command]
-        process.standardOutput = pipe
-        process.standardError = pipe
 
         do {
             try process.run()
@@ -113,8 +101,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("❌ Failed to run process: \(error)")
             return -1
         }
-        
-        if command.localizedStandardContains("pkill") {
+
+        if command.localizedStandardContains("kill") {
             process.waitUntilExit()
         }
         
