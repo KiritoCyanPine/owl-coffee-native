@@ -27,6 +27,9 @@ app:
 # ---- Create .dmg using create-dmg ----
 dmg: app
 	mkdir -p $(DIST_DIR)
+	
+	which create-dmg | grep -o create-dmg > /dev/null &&  echo "create-dmg installed" || brew install create-dmg
+	
 	create-dmg \
 		--volname "$(APP_NAME)" \
 		--window-pos 200 120 \
