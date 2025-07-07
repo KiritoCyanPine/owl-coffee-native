@@ -32,11 +32,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func GetMenuList() -> NSMenu {
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: StringMapping.GetCaffeinateMenuItemTitle(), action: #selector(Caffeinate), keyEquivalent: "c"))
-        menu.addItem(NSMenuItem(title: StringMapping.GetCaffeinateDisplayMenuItemTitle(), action: #selector(CaffeinateWithDisplay), keyEquivalent: "d"))
+        let caffinateMenu = NSMenuItem(title: StringMapping.GetCaffeinateMenuItemTitle(), action: #selector(Caffeinate), keyEquivalent: "c")
+        if CaffinationStatus.enabled {
+            caffinateMenu.badge = NSMenuItemBadge(string: "Active")
+        }
+        menu.addItem(caffinateMenu)
+        
+        let caffienateDisplayMenu = NSMenuItem(title: StringMapping.GetCaffeinateDisplayMenuItemTitle(), action: #selector(CaffeinateWithDisplay), keyEquivalent: "d")
+        if CaffinationStatus.enabledWithDisplay {
+            caffienateDisplayMenu.badge = NSMenuItemBadge(string: "Active")
+        }
+        menu.addItem(caffienateDisplayMenu)
+        
         menu.addItem(.separator())
+        
         menu.addItem(NSMenuItem(title: "💤 deCaffienate", action: #selector(DeCaffeinate), keyEquivalent: "a"))
+        
         menu.addItem(.separator())
+        
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
         
         return menu

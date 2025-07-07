@@ -13,15 +13,15 @@ class StringMapping: NSObject,NSApplicationDelegate {
             return "Caffienate"
         }
         
-        return "⚡️ Caffienate"
+        return "Caffienate 🍃"
     }
     
     static public func GetCaffeinateDisplayMenuItemTitle() -> String{
         if !CaffinationStatus.enabledWithDisplay{
-            return "Caffienate Display"
+            return "Caffienate with Display"
         }
         
-        return "⚡️ Caffienate Display"
+        return "Caffienate with Display 🍃"
     }
     
     static public func GetTrayIconSymbolName() -> String{
