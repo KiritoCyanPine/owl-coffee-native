@@ -23,4 +23,5 @@ jobs:
         env:
           scheme: ${{ 'default' }}
         run: |
+          make clean
           make
