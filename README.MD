@@ -12,7 +12,7 @@ All with the convinence of system tray options.
 
 ## Application Demo
 
-![alt text](doc/media/owlCoffeeDemo.gif)
+![running owl coffee demo](doc/media/owlCoffee-DEMO.gif)
 
 ## Installation
 
@@ -22,9 +22,12 @@ You can also build the app from source by following the instructions in the [Bui
 
 ## Features
 
-- Keep your machine awake
-- Keep your display awake
-- Interface with system tray options
+- **Prevents sleep:** Stops your Mac from entering sleep mode
+- **Prevents display sleep:** Keeps the screen from turning off
+- **Prevents disk sleep:** Keeps hard drives spinning
+- **Prevents system idle sleep:** Maintains system activity
+
+OwlCoffee utilised caffeinate to achieve these features.
 
 ## Building and Running
 
@@ -37,6 +40,7 @@ git clone https://github.com/KiritoCyanPine/owl-coffee-native.git
 ```
 
 After cloning the repository, you can open the project in Xcode:
+
 ```bash
 cd owl-coffee-native
 open OwlCoffee.xcodeproj
@@ -45,6 +49,7 @@ open OwlCoffee.xcodeproj
 Once the project is open in Xcode, you can build and run the app by selecting the target and clicking the "Run" button.
 
 To build it as an executable, you can use the make command:
+
 ```bash
 make build
 ```
