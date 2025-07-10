@@ -30,7 +30,7 @@ jobs:
         id: check_dist
         uses: andstor/file-existence-action@v3
         with:
-          files: 'Owl Coffee.app'
+          files: 'build/Release/Owl Coffee.app'
 
       - name: Veirfy Build File Exist
         if: steps.check_files.outputs.files_exists == 'false'
@@ -42,7 +42,7 @@ jobs:
       - name: Locate .app bundle
         run: |
           # Set the path to your bundle, or discover it
-          export APP_BUNDLE=$(find . -name "Owl Coffee.app" -type d | head -n 1)
+          export APP_BUNDLE=$(find . -name "build/Release/Owl Coffee.app" -type d | head -n 1)
           echo "BUNDLE_PATH=$APP_BUNDLE" >> $GITHUB_ENV
 
       - name: Check bundle structure
