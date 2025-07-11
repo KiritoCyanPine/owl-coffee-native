@@ -1,9 +1,10 @@
-name: Xcode - Build and Analyze
+name: Xcode - Build, Analyze, Distribution
 
 on:
   push:
+    tags:
+      - 'v*'
     branches: ['main']
-  create:
   workflow_dispatch:
 
 jobs:
@@ -87,8 +88,7 @@ jobs:
     name: Create Dmg and Release
     needs: build_and_analyze
     runs-on: macos-15
-    if: |
-      github.event.ref_type == 'branch' && startsWith(github.event.ref, 'release/owlcoffee-')
+    if: startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - name: Checkout
@@ -106,32 +106,6 @@ jobs:
           make clean
           make
 
-      - name: Extract version from branch name
-        id: extract_version
-        run: |
-          # GITHUB_REF contains 'refs/heads/release/oc-1.0.0-1'
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          # Split on '-', get everything after 'owlcoffee-'
-          VERSION="${BRANCH_NAME#release/owlcoffee-}"
-          TAG="v$VERSION"
-          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-
-      - name: Checkout branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.extract_version.outputs.branch }}
-
-      - name: Create tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: |
-          git config user.name "KiritoCyanPine"
-          git config user.email "debasishfairytail@gmail.com"
-          git tag ${{ steps.extract_version.outputs.tag }}
-          git push origin ${{ steps.extract_version.outputs.tag }}
-
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -140,6 +114,7 @@ jobs:
           tag_name: ${{ steps.extract_version.outputs.tag }}
           draft: false
           prerelease: false
+          body: 'Owl Coffee is a simple, fast, and easy-to-use app to keep your mac awake. 🥱 Caffeinate today !!'
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
