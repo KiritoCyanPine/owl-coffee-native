@@ -113,7 +113,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
           name: Release ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
           draft: false
           prerelease: false
           body: 'Owl Coffee is a simple, fast, and easy-to-use app to keep your mac awake. 🥱 Caffeinate today !!'
