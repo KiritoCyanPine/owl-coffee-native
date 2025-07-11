@@ -42,7 +42,7 @@ jobs:
       - name: Locate .app bundle
         run: |
           # Set the path to your bundle, or discover it
-          export APP_BUNDLE=$(find . -name "build/Release/Owl Coffee.app" -type d | head -n 1)
+          export APP_BUNDLE=./build/Release/Owl\ Coffee.app
           echo APP_BUNDLE = $APP_BUNDLE
           echo "BUNDLE_PATH=$APP_BUNDLE" >> $GITHUB_ENV
 
