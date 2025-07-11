@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_and_analyze:
-    name: Build and analyse default scheme using xcodebuild command
+    name: Build and analyse default scheme | test basic application workflow
     runs-on: macos-15
 
     steps:
@@ -80,7 +80,11 @@ jobs:
       - name: Test Application handling
         run: |
           echo "Emulate Command+D :  should start caffeination with Display"
-          osascript -e 'tell application "System Events" to keystroke "d" using command
+          osascript <<EOF
+          tell application "OwlCoffee" to activate
+          delay 0.3
+          tell application "System Events" to keystroke "d" using command down
+          EOF
           sleep 5 # give it a moment to launch
 
           output="$(lsof | grep "caffeinate")"
@@ -92,7 +96,11 @@ jobs:
           fi
 
           echo "Emulate Command+A :  should Stop caffeination"
-          osascript -e 'tell application "System Events" to keystroke "a" using command
+          osascript <<EOF
+          tell application "OwlCoffee" to activate
+          delay 0.3
+          tell application "System Events" to keystroke "a" using command down
+          EOF
           sleep 5 # give it a moment to launch
 
           output="$(lsof | grep "caffeinate")"
@@ -104,7 +112,11 @@ jobs:
           fi
 
           echo "Emulate Command+C :  should start standard caffeination"
-          osascript -e 'tell application "System Events" to keystroke "c" using command
+          osascript <<EOF
+          tell application "OwlCoffee" to activate
+          delay 0.3
+          tell application "System Events" to keystroke "c" using command down
+          EOF
           sleep 5 # give it a moment to launch
 
           output="$(lsof | grep "caffeinate")"
