@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_analyze:
     name: Build and analyse default scheme using xcodebuild command
     runs-on: macos-15
 
@@ -59,7 +59,7 @@ jobs:
 
       - name: Check executable permissions
         run: |
-          EXEC=./Contents/MacOS/Owl\ Coffee 
+          EXEC=Owl\ Coffee 
           ls -l "$BUNDLE_PATH/Contents/MacOS/$EXEC"
           test -x "$BUNDLE_PATH/Contents/MacOS/$EXEC"
 
