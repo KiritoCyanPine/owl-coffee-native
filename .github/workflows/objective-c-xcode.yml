@@ -81,7 +81,7 @@ jobs:
         run: |
           echo "Emulate Command+D :  should start caffeination with Display"
           osascript <<EOF
-          tell application "OwlCoffee" to activate
+          tell application "Owl Coffee" to activate
           delay 0.3
           tell application "System Events" to keystroke "d" using command down
           EOF
@@ -97,7 +97,7 @@ jobs:
 
           echo "Emulate Command+A :  should Stop caffeination"
           osascript <<EOF
-          tell application "OwlCoffee" to activate
+          tell application "Owl Coffee" to activate
           delay 0.3
           tell application "System Events" to keystroke "a" using command down
           EOF
@@ -113,7 +113,7 @@ jobs:
 
           echo "Emulate Command+C :  should start standard caffeination"
           osascript <<EOF
-          tell application "OwlCoffee" to activate
+          tell application "Owl Coffee" to activate
           delay 0.3
           tell application "System Events" to keystroke "c" using command down
           EOF
