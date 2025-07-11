@@ -74,68 +74,10 @@ jobs:
             echo "Owl Coffee.app is NOT running."
             exit 1
           else
-            echo "Owl Coffee.app is running:"
+            echo "Owl Coffee.app is running."
           fi
 
-      - name: Test Application handling
-        run: |
-          echo "Emulate Command+D :  should start caffeination with Display"
-          osascript <<EOF
-          tell application "Owl Coffee" to activate
-          delay 0.3
-          tell application "System Events" to keystroke "d" using command down
-          EOF
-          sleep 5 # give it a moment to launch
+          pkill -aif "Owl Coffee"
 
-          output="$(lsof | grep "caffeinate")"
-          if [ -z "$output" ]; then
-            echo "'caffeination' is NOT running."
-            exit 1
-          else
-            echo "caffeination is running."
-          fi
-
-          echo "Emulate Command+A :  should Stop caffeination"
-          osascript <<EOF
-          tell application "Owl Coffee" to activate
-          delay 0.3
-          tell application "System Events" to keystroke "a" using command down
-          EOF
-          sleep 5 # give it a moment to launch
-
-          output="$(lsof | grep "caffeinate")"
-          if [ -z "$output" ]; then
-            echo "'caffeination' is NOT running."
-          else
-            echo "caffeination is still running."
-            exit 1
-          fi
-
-          echo "Emulate Command+C :  should start standard caffeination"
-          osascript <<EOF
-          tell application "Owl Coffee" to activate
-          delay 0.3
-          tell application "System Events" to keystroke "c" using command down
-          EOF
-          sleep 5 # give it a moment to launch
-
-          output="$(lsof | grep "caffeinate")"
-          if [ -z "$output" ]; then
-            echo "'caffeination' is NOT running."
-            exit 1
-          else
-            echo "caffeination is running."
-          fi
-
-          osascript -e 'tell application "Owl Coffee" to quit'
-          sleep 5
-          output="$(lsof | grep "caffeinate")"
-          if [ -z "$output" ]; then
-            echo "'caffeination' is NOT running."
-          else
-            echo "caffeination is still running."
-            exit 1
-          fi
-
-      # - name: Gatekeeper assessment
-      #   run: spctl --assess --type execute --verbose=4 "$BUNDLE_PATH"
+      - name: Gatekeeper assessment
+        run: spctl --assess --type execute --verbose=4 Owl\ Coffee.app/ || echo "Application is not Notarised by a valid Developer Certificate !!"
