@@ -109,16 +109,18 @@ jobs:
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          name: Release ${{ steps.extract_version.outputs.tag }}
-          tag_name: ${{ steps.extract_version.outputs.tag }}
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
           draft: false
           prerelease: false
           body: 'Owl Coffee is a simple, fast, and easy-to-use app to keep your mac awake. 🥱 Caffeinate today !!'
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
           files: ./dist/OwlCoffee.dmg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
