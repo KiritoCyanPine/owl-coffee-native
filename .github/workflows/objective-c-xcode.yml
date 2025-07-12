@@ -2,9 +2,10 @@ name: Xcode - Build, Analyze, Distribution
 
 on:
   push:
-    tags:
-      - 'v*'
     branches: ['main']
+  create:
+    branches:
+      - 'release/owlcoffee-*'
   workflow_dispatch:
 
 jobs:
@@ -88,7 +89,7 @@ jobs:
     name: Create Dmg and Release
     needs: build_and_analyze
     runs-on: macos-15
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/heads/release/owlcoffee-')
 
     steps:
       - name: Checkout
@@ -106,13 +107,22 @@ jobs:
           make clean
           make
 
+      - name: Extract release name
+        id: extract
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          TAG_NAME="${BRANCH_NAME//\//-}"  # Convert slashes to dashes for tag
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          name: Release ${{ github.ref_name }}
+          name: Release  ${{ steps.extract.outputs.tag_name }}
+          tag_name: ${{ steps.extract.outputs.tag_name }}
           draft: false
           prerelease: false
           body: 'Owl Coffee is a simple, fast, and easy-to-use app to keep your mac awake. 🥱 Caffeinate today !!'
