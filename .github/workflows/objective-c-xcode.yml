@@ -125,11 +125,6 @@ jobs:
           tag_name: ${{ steps.extract.outputs.tag_name }}
           draft: false
           prerelease: false
-          body: 'Owl Coffee is a simple, fast, and easy-to-use app to keep your mac awake. 🥱 Caffeinate today !!'
-
-      - name: Upload Release Asset
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        with:
+          body_path: ${{ github.workspace }}/doc/RELEASE_NOTES.md
           files: ./dist/OwlCoffee.dmg
+          make_latest: true
